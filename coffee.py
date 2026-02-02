@@ -1,9 +1,13 @@
+#statement of requirements
 cost = 75
 payment = 0
 valid_coins = [5, 10, 20, 50]
 
 while payment < cost:
-    coin = int(input("Give coin (5, 10, 20, 50): ").replace("£", ""))
+    try: coin = int(input("Give coin (5, 10, 20, 50): ").replace("£", ""))#try: added
+    except ValueError:#added
+        print("Invalid Input")#added
+        continue#added
 
     if coin in valid_coins:
         payment += coin
