@@ -1,23 +1,42 @@
 #statement of requirements
 cost = 75
-payment = 0
-valid_coins = [5, 10, 20, 50]
+valid_coin = [5, 10, 20, 50]
 
-while payment < cost:
-    try: coin = int(input("Give coin (5, 10, 20, 50): ").replace("£", ""))#try: added
-    except ValueError:#added
-        print("Invalid Input")#added
-        continue#added
 
-    if coin in valid_coins:
-        payment += coin
-        if payment < cost:
-            print(f"Amount owed: £{cost - payment}")
+def get_coin():
+    """Handles input and validation."""
+    while True:
+        try:
+            coin = int(input("Insert a coin: ").replace("£", ""))
+            if coin in valid_coin:
+                return coin
+            else:
+                print("Invalid Input")
+        except ValueError:
+            print("Invalid Input")
+
+
+def update_total(current, coin):
+    """Performs simple calculation."""
+    return current - coin
+
+
+def dispense_product(amount_due):
+    """Handles output."""
+    if amount_due < 0:
+        print(f"Your change: £{-amount_due}")
     else:
-        print("Invalid coin")
+        print("Amount paid!")
 
-change = payment - cost
-if change > 0:
-    print(f"Change: £{change}")
-else:
-    print("Amount paid.Thank you!")
+
+def main():
+    amount_due = cost
+    while amount_due > 0:
+        coin = get_coin()
+        amount_due = update_total(amount_due, coin)
+        if amount_due > 0:
+            print(f"Amount owed: £{amount_due}")
+    dispense_product(amount_due)
+
+
+main()
