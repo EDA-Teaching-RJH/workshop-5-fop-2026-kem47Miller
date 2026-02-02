@@ -1,10 +1,22 @@
 #statement of requirements
-cost = 75
+DRINKS = {
+    "coffee": 75,
+    "tea": 50,
+    "hot chocolate": 100
+}
+
 valid_coin = [5, 10, 20, 50]
 
 
+def select_drink():
+    while True:
+        choice = input("Choose a drink (coffee / tea / hot chocolate): ").lower()
+        if choice in DRINKS:
+            return DRINKS[choice]
+        print("Invalid selection")
+
+
 def get_coin():
-    """Handles input and validation."""
     while True:
         try:
             coin = int(input("Insert a coin: ").replace("£", ""))
@@ -17,25 +29,38 @@ def get_coin():
 
 
 def update_total(current, coin):
-    """Performs simple calculation."""
     return current - coin
 
 
+def calculate_change(amount):
+    coins = [50, 20, 10, 5]
+    change = []
+
+    for coin in coins:
+        while amount >= coin:
+            change.append(coin)#single item to the end of a list.
+            amount -= coin
+
+    return change
+
+
 def dispense_product(amount_due):
-    """Handles output."""
     if amount_due < 0:
-        print(f"Your change: £{-amount_due}")
+        change = calculate_change(-amount_due)
+        print("Returning:", ", ".join(f"{coin}p" for coin in change))
     else:
-        print("Amount paid!")
+        print("Exact payment received. Thank you!")
 
 
 def main():
-    amount_due = cost
+    amount_due = select_drink()
+
     while amount_due > 0:
         coin = get_coin()
         amount_due = update_total(amount_due, coin)
         if amount_due > 0:
             print(f"Amount owed: £{amount_due}")
+
     dispense_product(amount_due)
 
 
